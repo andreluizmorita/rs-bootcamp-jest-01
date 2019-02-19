@@ -17,3 +17,26 @@ it("should render todos", () => {
 
   expect(wrapper.find("li")).toHaveLength(3);
 });
+
+it("should be able to add new todo", () => {
+  const wrapper = shallow(<TodoList />);
+
+  wrapper.setState({ todos });
+
+  wrapper.find("button").simulate("click");
+
+  expect(wrapper.state("todos")).toHaveLength(4);
+});
+
+it("should be able to remove todo", () => {
+  const wrapper = shallow(<TodoList />);
+
+  wrapper.setState({ todos });
+
+  wrapper
+    .find("li")
+    .first()
+    .simulate("click");
+
+  expect(wrapper.state("todos")).not.toContain(todos[0]);
+});

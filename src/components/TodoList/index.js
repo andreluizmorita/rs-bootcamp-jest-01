@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { url } from "inspector";
 
 export default class TodoList extends Component {
@@ -6,13 +6,35 @@ export default class TodoList extends Component {
     todos: []
   };
 
+  addTodo = () => {
+    this.setState({
+      todos: [...this.state.todos, { id: Math.random(), text: "Novo todo" }]
+    });
+  };
+
+  removeTodo = id => {
+    this.setState({
+      todos: this.state.todos.filter(todo => todo.id !== id)
+    });
+  };
+
   render() {
     return (
-      <ul>
-        {this.state.todos.map(todo => (
-          <li key={todo.id}>{todo.text}</li>
-        ))}
-      </ul>
+      <Fragment>
+        <ul>
+          {this.state.todos.map(todo => (
+            <li
+              onClick={() => {
+                this.removeTodo(todo.id);
+              }}
+              key={todo.id}
+            >
+              {todo.text}
+            </li>
+          ))}
+        </ul>
+        <button onClick={this.addTodo}>Adicionar todo</button>
+      </Fragment>
     );
   }
 }
