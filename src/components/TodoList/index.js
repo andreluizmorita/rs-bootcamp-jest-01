@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { url } from "inspector";
 
 export default class TodoList extends Component {
   state = {

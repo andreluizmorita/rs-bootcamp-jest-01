@@ -13,9 +13,7 @@ describe("TodoList component", () => {
   it("should render todos", () => {
     const wrapper = shallow(<TodoList />);
 
-    wrapper.setState({
-      todos
-    });
+    wrapper.setState({ todos });
 
     expect(wrapper.find("li")).toHaveLength(3);
   });
@@ -48,6 +46,18 @@ describe("TodoList component", () => {
 
     const wrapper = shallow(<TodoList />);
 
+    wrapper.setState({ todos });
+
     expect(wrapper.state("todos")).toEqual(todos);
+  });
+
+  it("should save to localStorage when added new todo", () => {
+    const spy = sinon.spy(localStorage, "setItem");
+
+    const wrapper = shallow(<TodoList />);
+
+    wrapper.instance().addTodo();
+
+    expect(spy.calledOnce).toBe(true);
   });
 });
