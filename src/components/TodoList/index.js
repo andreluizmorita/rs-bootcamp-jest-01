@@ -1,12 +1,16 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 
-export default class TodoList extends Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as TodosActions } from '../../store/ducks/todos';
+
+class TodoList extends Component {
   state = {
     todos: []
   };
 
   componentDidMount() {
-    const todos = localStorage.getItem("todos");
+    const todos = localStorage.getItem('todos');
 
     if (todos) {
       this.setState({ todos: JSON.parse(todos) });
@@ -14,12 +18,12 @@ export default class TodoList extends Component {
   }
 
   saveTodos = () => {
-    localStorage.setItem("todos", JSON.stringify(this.state.todos));
+    localStorage.setItem('todos', JSON.stringify(this.state.todos));
   };
 
   addTodo = () => {
     this.setState({
-      todos: [...this.state.todos, { id: Math.random(), text: "Novo todo" }]
+      todos: [...this.state.todos, { id: Math.random(), text: 'Novo todo' }]
     });
 
     this.saveTodos();
@@ -53,3 +57,15 @@ export default class TodoList extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  todos: state.todos
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(TodosActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);
